@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -78,13 +79,13 @@ fun DataStoreDemo(modifier: Modifier) {
     Column (modifier = Modifier.padding(50.dp)) {
         Text("Values = ${appPrefs.value.userName}, " +
                 "${appPrefs.value.highScore}, ${appPrefs.value.darkMode}")
-
-
+        Spacer(Modifier.padding(10.dp))
         TextField(
             value = usrname,
             onValueChange = { usrname = it },
             label = { Text("username") }
         )
+        Spacer(Modifier.padding(10.dp))
         Button(onClick = {
             coroutineScope.launch {
                 store.saveUsername(usrname)
