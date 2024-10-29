@@ -15,7 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -67,15 +71,23 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DataStoreDemo(modifier: Modifier) {
+    var usrname by remember { mutableStateOf("") }
     val store = AppStorage(LocalContext.current)
     val appPrefs = store.appPreferenceFlow.collectAsState(AppPreferences())
     val coroutineScope = rememberCoroutineScope()
     Column (modifier = Modifier.padding(50.dp)) {
         Text("Values = ${appPrefs.value.userName}, " +
                 "${appPrefs.value.highScore}, ${appPrefs.value.darkMode}")
+
+
+        TextField(
+            value = usrname,
+            onValueChange = { usrname = it },
+            label = { Text("username") }
+        )
         Button(onClick = {
             coroutineScope.launch {
-                store.saveUsername("flygirl")
+                store.saveUsername(usrname)
                 store.saveHighScore(200)
                 store.saveTheme(true)
             }
